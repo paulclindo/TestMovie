@@ -1,0 +1,123 @@
+.CreateMovieModal {
+    margin: 3rem 0;
+
+}
+
+.Modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &__container {
+        position: relative;
+        top: 10rem;
+        background-color: #ffffff;
+        padding: 1rem;
+        width: 500px;
+    }
+
+    &__footer {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        padding: 0 2rem;
+    }
+
+    &__close-button {
+        position: absolute;
+        top: 0;
+        right: 0;
+        border: 0;
+        background-color: #F5F5F5;
+        padding: 0.5rem 1rem;
+    }
+
+    h1 {
+        color: $accent-color;
+        padding-left: 1rem;
+        margin-bottom: 1rem;
+        margin-left: 1rem;
+        font-size: 1.5rem;
+    }
+
+    form {
+        margin-right: auto;
+        margin-left: auto;
+        max-width: 320px;
+    }
+
+    label {
+        margin: 2rem 0;
+        display: block;
+        color: $text-color;
+    }
+
+    input,
+    select {
+        padding: .5rem;
+        width: 100%;
+        border-top: 0;
+        border-right: 0;
+        border-bottom: 1px solid #bdc3c7;
+        border-left: 0;
+        transition: border-bottom-color .15s ease-in;
+
+        &:focus {
+            outline: 0;
+            border-bottom-color: $accent-color;
+        }
+    }
+
+    .btn {
+        display: block;
+        padding: .5rem 2rem;
+        color: #fff;
+        border: 0;
+        border-radius: .2rem;
+        cursor: pointer;
+        transition: background-color .15s ease-in;
+
+        &-save {
+            background-color: $accent-color;
+
+            &:focus:active {
+                background-color: darken($accent-color, 8%);
+            }
+
+            &:focus {
+                outline: 0;
+            }
+
+            &:hover {
+                background-color: lighten($accent-color, 15%);
+            }
+        }
+
+        &-default {
+            background-color: $white;
+            color: $text-color;
+
+            &:focus:active {
+                background-color: lighten($white, 10%);
+
+            }
+
+            &:focus {
+                outline: 0;
+            }
+
+            &:hover {
+                background-color: darken($white, 10%);
+            }
+        }
+
+    }
+
+}
