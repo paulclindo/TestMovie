@@ -11,7 +11,10 @@ function Modal(props) {
         <button onClick={props.onClose} className="Modal__close-button">
           X
         </button>
-        {props.children}
+        <div className="CreateMovieModal">
+          <h1>{props.titleModal}</h1>
+          {props.children}
+        </div>
       </div>
     </div>,
     document.getElementById("modal")

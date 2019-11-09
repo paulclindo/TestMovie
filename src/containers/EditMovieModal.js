@@ -1,18 +1,22 @@
 import React, { Component } from "react";
+import Modal from "./../components/Modal";
 
-import Modal from "../components/Modal";
-
-class CreateMovieModal extends Component {
+class EditMovieModal extends Component {
   state = {
-    loading: false,
-    error: null,
     movie: {
-      id: "",
       name: "",
       publishDate: "",
-      status: null
+      status: ""
     }
   };
+  componentDidUpdate(prevProps, prevState) {
+    const moviecurrent = this.props.movieSelected;
+    if (prevProps.movieSelected.id !== moviecurrent.id) {
+      this.setState({
+        movie: moviecurrent
+      });
+    }
+  }
   handleChange = e => {
     this.setState({
       movie: {
@@ -21,37 +25,31 @@ class CreateMovieModal extends Component {
       }
     });
   };
-
   handleSubmit = e => {
     e.preventDefault();
-
-    const { name, publishDate, status } = this.state.movie;
-    if (!name || !publishDate || !status) {
-      alert("Ingrese todos los campos, por favor");
-      return;
-    }
-    const { addMovie } = this.props;
-
-    const newMovie = {
-      name,
-      publishDate,
-      status
-    };
-    addMovie(newMovie);
-    this.setState(this.state);
+    const { movie } = this.state;
+    const newMovie = JSON.stringify(this.state.movie);
+    alert(newMovie);
   };
 
   render() {
+    const { name, publishDate, status } = this.state.movie;
+    const { modalIsOpen, onCloseModal } = this.props;
     return (
       <Modal
-        isOpen={this.props.modalIsOpen}
-        onClose={this.props.onCloseModal}
-        titleModal="Crear Pelicula"
+        isOpen={modalIsOpen}
+        onClose={onCloseModal}
+        titleModal="Editar Pelicula"
       >
         <form onSubmit={this.handleSubmit}>
           <label>
             Nombre de la Pelicula:
-            <input type="text" name="name" onChange={this.handleChange} />
+            <input
+              type="text"
+              name="name"
+              value={name}
+              onChange={this.handleChange}
+            />
           </label>
           <label>
             Fecha de Publicacion
@@ -59,14 +57,13 @@ class CreateMovieModal extends Component {
               type="date"
               name="publishDate"
               onChange={this.handleChange}
+              value={publishDate}
             />
           </label>
           <label>
             Estado
             <select name="status" id="" onChange={this.handleChange}>
-              <option selected value={true}>
-                Active
-              </option>
+              <option trueValue={true}>Active</option>
               <option value={false}>Inactive</option>
             </select>
           </label>
@@ -85,4 +82,4 @@ class CreateMovieModal extends Component {
   }
 }
 
-export default CreateMovieModal;
+export default EditMovieModal;
