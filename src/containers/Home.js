@@ -6,48 +6,43 @@ class Home extends Component {
   state = {
     modalIsOpen: false,
     modalEditOpen: false,
-    movieSelected: {
-      id: null,
-      name: "",
-      publishDate: "",
-      state: false
-    },
+    id: "",
     movieData: [
       {
         id: 1,
         name: "Jason Bourne",
         publishDate: "2017-10-03",
-        state: true
+        status: true
       },
       {
         id: 2,
         name: "Alicia en el Pais de las Maravillas",
         publishDate: "2013-12-21",
-        state: false
+        status: false
       },
       {
         id: 3,
         name: "Tarzan la leyenda",
         publishDate: "2019-02-13",
-        state: false
+        status: false
       },
       {
         id: 4,
         name: "Mi buen Amigo Gigante",
         publishDate: "2017-10-23",
-        state: true
+        status: true
       },
       {
         id: 5,
         name: "Avengers",
         publishDate: "2010-10-12",
-        state: true
+        status: true
       },
       {
         id: 6,
         name: "Jocker",
         publishDate: "2017-10-03",
-        state: true
+        status: true
       }
     ]
   };
@@ -64,6 +59,23 @@ class Home extends Component {
     this.setState({ modalEditOpen: true });
   };
 
+  //CRUD Functions
+
+  addMovie = movie => {
+    const { movieData } = this.state;
+    movie.id = movieData.length + 1;
+    this.setState({ movieData: [...movieData, movie], modalIsOpen: false });
+  };
+
+  updateMovie = (updateMovie, id) => {
+    const { movieData: movies } = this.state;
+    this.setState({
+      modalEditOpen: true,
+      id: id,
+      movieData: movies.map(movie => (movie.id === id ? updateMovie : movie))
+    });
+  };
+
   handleDelete = movie => {
     const movies = this.state.movieData.filter(m => m.id !== movie.id);
     this.setState({
@@ -71,18 +83,10 @@ class Home extends Component {
     });
   };
 
-  addMovie = movie => {
-    const { movieData } = this.state;
-    movie.id = movieData.length + 1;
-    this.setState({ movieData: [...movieData, movie], modalIsOpen: false });
-    alert("Pelicula ha sido agregada");
-  };
-
-  viewMovie = movie => {
-    this.setState({
-      modalEditOpen: true,
-      movieSelected: movie
-    });
+  getMovieById = id => {
+    const { movieData: movies } = this.state;
+    const m = movies.filter(movie => movie.id === id);
+    return m[0];
   };
 
   render() {
@@ -98,13 +102,15 @@ class Home extends Component {
           movies={this.state.movieData}
           deleteMovie={this.handleDelete}
           onOpenEditModal={this.handleOpenModal}
-          viewMovie={this.viewMovie}
+          updateMovie={this.updateMovie}
         />
         <EditMovieModal
-          movieSelected={this.state.movieSelected}
+          movieId={this.state.id}
           modalIsOpen={this.state.modalEditOpen}
           onOpenModal={this.handleOpenEditModal}
           onCloseModal={this.handleCloseEditModal}
+          movies={this.state.movieData}
+          getMovieById={this.getMovieById}
           updateMovie={this.updateMovie}
         />
         <CreateMovieModal

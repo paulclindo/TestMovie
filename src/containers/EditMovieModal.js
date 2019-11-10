@@ -4,16 +4,24 @@ import Modal from "./../components/Modal";
 class EditMovieModal extends Component {
   state = {
     movie: {
+      id: "",
       name: "",
       publishDate: "",
       status: ""
     }
   };
+
   componentDidUpdate(prevProps, prevState) {
-    const moviecurrent = this.props.movieSelected;
-    if (prevProps.movieSelected.id !== moviecurrent.id) {
+    if (prevProps.movieId !== this.props.movieId) {
+      const movie = this.props.getMovieById(this.props.movieId);
+      // debugger;
       this.setState({
-        movie: moviecurrent
+        movie: {
+          id: movie.id,
+          name: movie.name,
+          publishDate: movie.publishDate,
+          status: movie.status
+        }
       });
     }
   }
@@ -25,11 +33,21 @@ class EditMovieModal extends Component {
       }
     });
   };
+
   handleSubmit = e => {
     e.preventDefault();
-    const { movie } = this.state;
-    const newMovie = JSON.stringify(this.state.movie);
-    alert(newMovie);
+    const { id, name, publishDate, status } = this.state.movie;
+    const { updateMovie } = this.props;
+
+    const newMovie = {
+      id,
+      name,
+      publishDate,
+      status
+    };
+    // debugger;
+    updateMovie(newMovie, this.props.movieId);
+    this.props.onCloseModal();
   };
 
   render() {
@@ -62,8 +80,12 @@ class EditMovieModal extends Component {
           </label>
           <label>
             Estado
-            <select name="status" id="" onChange={this.handleChange}>
-              <option trueValue={true}>Active</option>
+            <select
+              name="status"
+              defaultValue={status}
+              onChange={this.handleChange}
+            >
+              <option value={true}>Active</option>
               <option value={false}>Inactive</option>
             </select>
           </label>

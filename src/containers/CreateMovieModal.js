@@ -4,13 +4,11 @@ import Modal from "../components/Modal";
 
 class CreateMovieModal extends Component {
   state = {
-    loading: false,
-    error: null,
     movie: {
       id: "",
       name: "",
       publishDate: "",
-      status: null
+      status: true
     }
   };
   handleChange = e => {
@@ -39,6 +37,7 @@ class CreateMovieModal extends Component {
     };
     addMovie(newMovie);
     this.setState(this.state);
+    this.props.onCloseModal();
   };
 
   render() {
@@ -63,10 +62,13 @@ class CreateMovieModal extends Component {
           </label>
           <label>
             Estado
-            <select name="status" id="" onChange={this.handleChange}>
-              <option selected value={true}>
-                Active
-              </option>
+            <select
+              name="status"
+              id=""
+              onChange={this.handleChange}
+              placeholder=" Eliga su estado"
+            >
+              <option value={true}>Active</option>
               <option value={false}>Inactive</option>
             </select>
           </label>
